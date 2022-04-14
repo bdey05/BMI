@@ -28,6 +28,7 @@ class BMICalculatorState extends State<BMICalculator> {
   final gender = TextEditingController();
   final weight = TextEditingController();
   final height = TextEditingController();
+  var dropdownValue = "Male";
 
   @override
   Widget build(BuildContext context) {
@@ -83,39 +84,7 @@ class BMICalculatorState extends State<BMICalculator> {
               },
             ),
             SizedBox(height: 15),
-            TextFormField(
-              controller: gender,
-              decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide(
-                      color: Colors.white,
-                      width: 2.0,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide(
-                      color: Colors.white,
-                    ),
-                  ),
-                  hintText: 'Enter your gender (Male or Female)',
-                  fillColor: Color(0xfff0f5fc),
-                  filled: true,
-                  labelText: 'Gender',
-                  floatingLabelStyle: const TextStyle(color: Color(0xff3f3cf3), fontSize: 18)
-              ),
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please fill in the field';
-                }
-                if (value.toLowerCase() != "male" && value.toLowerCase() != "female"){
-                  return 'Please enter \"Male\" or \"Female\" for your gender';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 15),
+
             TextFormField(
               controller: weight,
               decoration: InputDecoration(
@@ -181,6 +150,41 @@ class BMICalculatorState extends State<BMICalculator> {
                 return null;
               },
             ),
+            SizedBox(height: 15),
+            Container(
+
+              padding: EdgeInsets.all(5),
+              width: 375,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                color: Color(0xfff0f5fc),
+                border: Border.all(
+                    color: Colors.white, style: BorderStyle.solid, width: 2),
+              ),
+              child:
+            DropdownButton<String>(
+              value: dropdownValue,
+              icon: const Icon(Icons.arrow_downward),
+              isExpanded: true,
+              hint: Text("Gender"),
+              dropdownColor: Color(0xfff0f5fc),
+              style: TextStyle(color: Colors.grey.shade700),
+              underline: SizedBox.shrink(),
+              onChanged: (String? newValue) {
+                setState(() {
+                  dropdownValue = newValue!;
+                });
+              },
+              items: <String>['Male', 'Female']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value, style: TextStyle(fontSize: 16)),
+                );
+              }).toList(),
+            ),
+            ),
+
             Container(
                 padding: const EdgeInsets.all(15),
                 child:
